@@ -1,21 +1,21 @@
+function evento(connection){
+	this._connection = connection;
+}
+evento.prototype.salvarEvento = function(evento, callback){
+	this._connection.query('insert into evento set ?', evento,callback);
+}
+evento.prototype.getEventoId = function(callback){
+	this._connection.query('select idEvento,nome from evento', callback);
+}
+evento.prototype.getEventos = function(callback){
+	this._connection.query('select * from evento ORDER BY idEvento DESC', callback);
+}
+evento.prototype.excluir = function(evento,callback){
+	console.log("olho molieres");
+	this._connection.query('delete from evento where idEvento=?',evento,callback);
+}
 module.exports = function(){
 
 
-	this.publicarEvento = function(evento){
-
-		var FB = require('fb');
-
-		FB.setAccessToken('EAADZBRdKlIBYBAAHgnaycb2PtZAc3D8wxOXmWfO2XCsmhhCJYEf2y0V12N4ZALhZCgMGTRHjZAdw6213CGAY1Fn5GxK3iLuktFnzfZAGjbZA1MZBTE5kTlkTEpEfyCWyVGSv4efSe4qpmaZAO9ZAfqyILQPx5vO4X20bu5eko3xNaEde2PuLuZBZBaOYnscZAZAl5I9pnbZBuytdhoORwZDZD');
-		FB.api(
-		    '/evento/salvar',
-		    'POST',
-		    { "message": "Testing with api" },
-		    function (response) {
-		        console.log(response);
-		    }
-		);
-
-	}
-
-	return this;
+	return evento;
 }

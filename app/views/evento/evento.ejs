@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			<meta charset="utf-8"/>
+			<title>Form evento teste</title>
+			<link href="/css/style.css" rel="stylesheet">
+		</head>
+	<body>
+
+		<h1>Publicar Evento</h1>
+		<br/>
+		<% if(validacao.length>0){%>
+		<input type=hidden id="action"value="ok"/>
+		<%}%>
+		<button type="button" id="eventoBtn">Cadastrar</button>
+		<div id="myModal" class="eventoModal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<form action="/evento/salvar" method="post">
+					<label>Nome</label>
+					<input type="text" id="nome" name="nome" value="<%=evento.nome%>" placeholder="Nome do evento"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'nome'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Data Inicio</label>
+					<input type="date" id="dataInicio" name="dataInicio" value="<%=evento.dataInicio%>"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'dataInicio'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Data Fim</label>
+					<input type="date" id="dataFim" name="dataFim" value="<%=evento.dataFim%>"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'dataFim'){%>
+							<%= validacao[i].msg;%>
+							<%break;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Descrição</label>
+					<textarea type="text" id="descricao" name="descricao" rows="5" cols="30"><%=evento.descricao%></textarea>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'descricao'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<input type="submit" value="Enviar"/>
+				</form>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table_evento">
+				<tr>
+					<td>ID</td>
+					<td>Nome</td>
+					<td>Data Inicio</td>
+					<td>Data Fim</td>
+					<td>Descricao</td>
+					<td>Ação</td>
+				</tr>
+				<% if(eventos.length > 0){ %>
+					<% for(var i = 0; i < eventos.length; i++){ %>
+						<tr>
+							<td><%= eventos[i].idEvento%></td>
+							<td><%= eventos[i].nome%></td>
+							<td><%= eventos[i].dataInicio.toLocaleDateString("en-US")%></td>
+							<td><%= eventos[i].dataFim.toLocaleDateString("en-US")%></td>
+							<td><%= eventos[i].descricao%></td>
+							<td><form action="/evento/excluir" method="post">
+    							<input type="hidden" name="id" value="<%= eventos[i].idEvento%>" />
+							    <button class="excluirBtn">excluir</button>
+								</form>
+							</td>
+						</tr>
+					<% } %>
+				<% } %>	
+			</table>		
+	    </div>
+	</body>
+</html>
+<script type="text/javascript"> 
+	window.onload = function(){
+		var a = document.getElementById('action').value;
+		if(a==='ok'){
+			document.getElementById('eventoBtn').click();
+		}
+	}
+	function myFunction() {
+	}
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("eventoBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+</script>

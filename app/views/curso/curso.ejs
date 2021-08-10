@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			<meta charset="utf-8"/>
+			<title>Form Curso teste</title>
+			<link href="/css/style.css" rel="stylesheet">
+		</head>
+	<body>
+
+		<h1>Publicar Curso</h1>
+		<br/>
+
+		<% if(validacao.length>0){%>
+		<input type=hidden id="action"value="ok"/>
+		<%}%>
+		<button type="button" id="cursoBtn">Cadastrar</button>
+		<div id="cursoModal" class="cursoModal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<form action="/curso/salvar" method="post">
+					<label>id</label>
+					<input type="text" id="Evento" value="<%=curso.Evento_idEvento%>" name="Evento_idEvento">
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'Evento_idEvento'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>palestrante</label>
+					<input type="text" id="Pessoa" value="<%=curso.Pessoa_idUsuario%>" name="Pessoa_idUsuario">
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'Pessoa_idUsuario'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Nome</label>
+					<input type="text" id="nome" name="nome"  value="<%=curso.nome%>"placeholder="Nome do curso"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'nome'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Custo</label>
+					<input type="text" id="custo" name="custo" value="<%=curso.custo%>" placeholder="Custo do curso"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'custo'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Tema</label>
+					<input type="text" id="tema" name="tema" value="<%=curso.tema%>" placeholder="Tema do curso"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'tema'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Carga Horaria</label>
+					<input type="text" id="cargaHoraria" name="cargaHoraria" value="<%=curso.cargaHoraria%>" placeholder="Carga Horaria"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'cargaHoraria'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Numero de Etapas</label>
+					<input type="text" id="numeroEtapas" name="numeroEtapas" value="<%=curso.numeroEtapas%>" placeholder="Numero de Etapas"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'numeroEtapas'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Data Inicio</label>
+					<input type="datetime-local" id="dataInicio" name="dataInicio" value="<%=curso.dataInicio%>" placeholder="Data do Inicio do curso "/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'dataInicio'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Data Fim</label>
+					<input type="datetime-local" id="dataFim" name="dataFim" value="<%=curso.dataFim%>" placeholder="Data do fim do curso"/>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'dataFim'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<label>Descrição</label>
+					<textarea type="text" id="descricao" name="descricao" rows="5" cols="30"><%=curso.descricao%></textarea>
+					<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'descricao'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+					<br/>
+					<input type="submit" value="Enviar"/>
+				</form>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table_evento">
+				<tr>
+					<td>ID</td>
+					<td>Nome</td>
+					<td>Carga horaria</td>
+					<td>Numero de Etapas</td>
+					<td>Data Inicio</td>
+					<td>Data Fim</td>
+					<td>Descricao</td>
+					<td>Ação</td>
+				</tr>
+				<% if(cursos.length > 0){ %>
+					<% for(var i = 0; i < cursos.length; i++){ %>
+						<tr>
+							<td><%= cursos[i].idCurso%></td>
+							<td><%= cursos[i].nome%></td>
+							<td><%= cursos[i].cargaHoraria%></td>
+							<td><%= cursos[i].numeroEtapas%></td>
+							<td><%= cursos[i].dataInicio.toLocaleDateString("en-US")%></td>
+							<td><%= cursos[i].dataFim.toLocaleDateString("en-US")%></td>
+							<td><%= cursos[i].descricao%></td>
+							<td>
+								<td><form action="/curso/excluir" method="post">
+    							<input type="hidden" name="id" value="<%= cursos[i].idCurso%>" />
+							    <button class="excluirBtn">excluir</button>
+								</form>
+							</td>
+						</tr>
+					<% } %>
+				<% } %>	
+			</table>		
+	    </div>
+	</body>
+</html>
+	<script type="text/javascript"> 
+  		document.getElementById("Evento").setAttribute('value','1');
+  		document.getElementById("Pessoa").setAttribute('value','1');
+	</script>
+	<script type="text/javascript"> 
+	window.onload = function(){
+		var a = document.getElementById('action').value;
+		if(a==='ok'){
+			document.getElementById('cursoBtn').click();
+		}
+	}
+		// Get the modal
+	var modal = document.getElementById("cursoModal");
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("cursoBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+</script>

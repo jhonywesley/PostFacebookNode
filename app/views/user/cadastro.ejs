@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+	<html lang="pt-br">
+		<head>
+			<meta charset="utf-8"/>
+			<title>Form cadastro</title>
+			<link href="/css/style.css" rel="stylesheet">
+		</head>
+	<body>
+
+		<h1>Cadastrar usuário</h1>
+		<br/>
+
+		<form action="/user/salvar" method="post">
+			<label>Nome</label>
+			<input type="text" id="nome" name="nome" value="<%=user.nome%>" placeholder="Nome"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'nome'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<label>Email</label>
+			<input type="text" id="email" name="email" value="<%=user.email%>" placeholder="Email"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'email'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<label>Senha</label>
+			<input type="password" id="senha" name="senha" value="<%=user.senha%>" placeholder="Senha"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'senha'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<label>CPF</label>
+			<input type="text" id="cpf" name="cpf" value="<%=user.cpf%>" oninput="mascara(this)" maxlength="11"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'cpf'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<label>RA</label>
+			<input type="text" id="ra" name="ra" value="<%=user.ra%>" placeholder="RA" maxlength="7"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'ra'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<label>Telefone</label>
+			<input type="text" id="telefone" name="telefone" value="<%=user.telefone%>"  maxlength="15"/>
+			<span class="validacao">
+						<% for(i=0;i < validacao.length;i++){%>
+							<% if(validacao[i].param === 'telefone'){%>
+							<%= validacao[i].msg;%>
+						<% }} %>
+					</span>
+			<br/>
+			<input type="submit" value="Enviar"/>
+		</form>
+
+	</body>
+</html>
+<script type="text/javascript">
+
+	/* Máscaras ER */
+	function mascara1(o,f){
+	    v_obj=o
+	    v_fun=f
+	    setTimeout("execmascara()",1)
+	}
+	function execmascara(){
+	    v_obj.value=v_fun(v_obj.value)
+	}
+	function mtel(v){
+	    v=v.replace(/\D/g,"");             //Remove tudo o que não é dígito
+	    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+	    v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+	    return v;
+	}
+	function id( el ){
+		return document.getElementById( el );
+	}
+	window.onload = function(){
+		id('telefone').onkeyup = function(){
+			mascara1( this, mtel );
+		}
+	}
+	function mascara(i){
+   
+	   var v = i.value;
+	   
+	   if(isNaN(v[v.length-1])){ // impede entrar outro caractere que não seja número
+	      i.value = v.substring(0, v.length-1);
+	      return;
+	   }
+	   
+	   i.setAttribute("maxlength", "14");
+	   if (v.length == 3 || v.length == 7) i.value += ".";
+	   if (v.length == 11) i.value += "-";
+
+	}
+</script>
