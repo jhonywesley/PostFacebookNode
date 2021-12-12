@@ -11,7 +11,6 @@ evento.prototype.getEventos = function(callback){
 	this._connection.query('select * from evento ORDER BY idEvento DESC', callback);
 }
 evento.prototype.excluir = function(evento,callback){
-	console.log("olho molieres");
 	this._connection.query('delete from evento where idEvento=?',evento,callback);
 }
 module.exports = function(){
